@@ -1,0 +1,34 @@
+<form id="form-create">
+    <h2>Sign up</h2>
+    <label for="email">Email</label>
+    <input type="text" name="email" required />
+    <div class="email error"></div>
+    <label for="password">Password</label>
+    <input type="password" name="password" required />
+    <div class="password error"></div>
+    <button>Sign up</button>
+</form>
+
+<script>
+    const form = document.getElementById('form-create');
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData.entries());
+        console.log('Data: ', data);
+
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json' // Set content type to JSON
+            },
+            body: JSON.stringify(data) // Convert JSON data to a string and set it as the request body
+        };
+        const res = await fetch('/auth/users', options);
+
+        if (res.status == 200) {
+            window.location = '/';
+        }
+    });
+</script>
