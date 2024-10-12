@@ -3,6 +3,7 @@ import { engine } from 'express-handlebars';
 import path from 'path';
 import connectToDatabase from './configDatabase.js';
 import routes from './routes/index.js';
+import cookieParser from 'cookie-parser';
 
 const app = express();
 
@@ -10,6 +11,7 @@ await connectToDatabase();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 // multer
 
