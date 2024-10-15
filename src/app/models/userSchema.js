@@ -6,7 +6,7 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
   email: { type: String, unique: true, required: true },
-  password: { type: String, minLength: 6, maxLength: 8 },
+  password: { type: String, minLength: 6 },
 });
 
 // Được thực hiện trước khi 1 hành gì đó xảy ra xuống database

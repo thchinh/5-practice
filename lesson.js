@@ -13,13 +13,13 @@
 //     - Separate Route Files
 
 // Tuần 4-2
-// API Authentication and Security
+// API authorization and Security
 // - Encrypting Storing Passwords
 // - Introduce way to protected website cookies and jwt token
 // - Logging in Users
-// - Generating Authentication Tokens
+// - Generating authorization Tokens
 // - Express Middleware
-// - Accepting Authentication Tokens
+// - Accepting authorization Tokens
 // - Advance Postman receive response and get token
 // - Protected route
 // - Authenticating Task Enpoints

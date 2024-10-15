@@ -2,6 +2,8 @@ import UserSchema from '../models/userSchema.js';
 import validator from 'validator';
 import jwt from 'jsonwebtoken';
 import config from '../../config.js';
+import HttpStatusCode from '../constants/httpStatusCode.js';
+import { BadRequest, SuccessResponse } from '../apiResponses/apiResponse.js';
 
 class AuthController {
   signUp(req, res, next) {
@@ -16,27 +18,30 @@ class AuthController {
     const getUser = await UserSchema.login(email, password);
 
     if (!getUser) {
-      return res.status(400).send({
-        message: 'Email is not existed, please try again!',
-      });
+      return res
+        .status(HttpStatusCode.BadRequest)
+        .send(new BadRequest('Email is not existed, please try again!'));
     }
 
-    const token = jwt.sign({ email: getUser.email }, config.jwt.secretKey, {
-      expiresIn: 60 * 60,
+    const payload = { email: getUser.email, roles: ['user'] };
+    const token = jwt.sign(payload, config.jwt.secretKey, {
+      expiresIn: Number.parseInt(config.jwt.expiresIn),
     });
 
-    res.send({
-      access_token: token,
-    });
+    res.send(
+      new SuccessResponse({
+        access_token: token,
+      })
+    );
   }
 
   async createUser(req, res, next) {
     const { email, password } = req.body;
     // 1. Validate email
     if (!validator.isEmail(email)) {
-      return res.status(400).send({
-        message: 'Email format is invalid!',
-      });
+      return res
+        .status(HttpStatusCode.BadRequest)
+        .send(new BadRequest('Email format is invalid!'));
     }
 
     // 2. Find User by email has existed in database or not
@@ -45,9 +50,9 @@ class AuthController {
     });
 
     if (getUser) {
-      return res.status(400).send({
-        message: 'Email is existing, please try again!',
-      });
+      return res
+        .status(HttpStatusCode.BadRequest)
+        .send(new BadRequest('Email is existing, please try again!'));
     }
 
     // 3. Create model to insert database
@@ -58,10 +63,7 @@ class AuthController {
 
     // 4. Save to database and return result
     await user.save();
-
-    return res.status(200).send({
-      message: 'Create user successfully',
-    });
+    return res.status(HttpStatusCode.Ok).send(new SuccessResponse(user));
   }
 }
 
