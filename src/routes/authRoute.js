@@ -12,7 +12,7 @@ authRoute.post('/login', AuthController.login);
 authRoute.post(
   '/users',
   authenticated,
-  authorization('admin'),
+  authorization('user'),
   AuthController.createUser
 );
 

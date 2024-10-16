@@ -4,6 +4,7 @@ import path from 'path';
 import connectToDatabase from './configDatabase.js';
 import routes from './routes/index.js';
 import cookieParser from 'cookie-parser';
+import errorHandler from './app/middlewares/errorHandler.js';
 
 const app = express();
 
@@ -21,6 +22,8 @@ app.set('view engine', 'hbs');
 app.set('views', 'src/views');
 
 routes(app);
+
+app.use(errorHandler);
 
 app.listen(3000, () => {
   console.log('App listening at http://localhost:3000');

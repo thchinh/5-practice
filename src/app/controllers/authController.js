@@ -36,34 +36,40 @@ class AuthController {
   }
 
   async createUser(req, res, next) {
-    const { email, password } = req.body;
-    // 1. Validate email
-    if (!validator.isEmail(email)) {
-      return res
-        .status(HttpStatusCode.BadRequest)
-        .send(new BadRequest('Email format is invalid!'));
+    try {
+      const { email, password } = req.body;
+      // 1. Validate email
+      if (!validator.isEmail(email)) {
+        return res
+          .status(HttpStatusCode.BadRequest)
+          .send(new BadRequest('Email format is invalid!'));
+      }
+
+      throw Error('Errro server');
+
+      // 2. Find User by email has existed in database or not
+      const getUser = await UserSchema.findOne({
+        email,
+      });
+
+      if (getUser) {
+        return res
+          .status(HttpStatusCode.BadRequest)
+          .send(new BadRequest('Email is existing, please try again!'));
+      }
+
+      // 3. Create model to insert database
+      const user = new UserSchema({
+        email,
+        password,
+      });
+
+      // 4. Save to database and return result
+      await user.save();
+      return res.status(HttpStatusCode.Ok).send(new SuccessResponse(user));
+    } catch (error) {
+      next(error);
     }
-
-    // 2. Find User by email has existed in database or not
-    const getUser = await UserSchema.findOne({
-      email,
-    });
-
-    if (getUser) {
-      return res
-        .status(HttpStatusCode.BadRequest)
-        .send(new BadRequest('Email is existing, please try again!'));
-    }
-
-    // 3. Create model to insert database
-    const user = new UserSchema({
-      email,
-      password,
-    });
-
-    // 4. Save to database and return result
-    await user.save();
-    return res.status(HttpStatusCode.Ok).send(new SuccessResponse(user));
   }
 }
 

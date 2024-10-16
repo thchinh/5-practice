@@ -33,3 +33,6 @@ userSchema.statics.login = async function (email, password) {
 const UserSchema = mongoose.model('users', userSchema);
 
 export default UserSchema;
+
+// Hanlde global error
+// Khi 1 nơi trong ứng dụng xảy ra lỗi thì phải bắt được và ném ra 1 middleware để xử lý
