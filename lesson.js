@@ -29,4 +29,9 @@
 // - Paginating Data
 // - Sorting Data
 
-// Token save khi generate => save cookie a CSRF token fetch =>
+// Tuần 5
+// 1. Soft delete
+// 2. Sorting asc | desc
+// 3. Pagination
+// 4. Global search
+// 5. Introduce cors
