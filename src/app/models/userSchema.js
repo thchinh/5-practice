@@ -7,6 +7,8 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
   email: { type: String, unique: true, required: true },
   password: { type: String, minLength: 6 },
+  isDelete: { type: Boolean, default: false },
+  deletedDate: { type: Date, default: null },
 });
 
 // Được thực hiện trước khi 1 hành gì đó xảy ra xuống database
@@ -18,6 +20,24 @@ userSchema.pre('save', function (next) {
 
   const salt = bcrypt.genSaltSync(config.bcryt.salt); // chinh => clskshinh => clskshinhsdsd  => clskshinhsdsd => ... => finalResult
   user.password = bcrypt.hashSync(user.password, salt);
+  next();
+});
+
+userSchema.pre('find', function (next) {
+  this.where({
+    isDelete: {
+      $ne: true,
+    },
+  });
+  next();
+});
+
+userSchema.pre('findOne', function (next) {
+  this.where({
+    isDelete: {
+      $ne: true,
+    },
+  });
   next();
 });
 

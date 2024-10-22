@@ -24,11 +24,6 @@
 // - Protected route
 // - Authenticating Task Enpoints
 
-// Practice for student: complete api authen for user
-// - Filtering Data
-// - Paginating Data
-// - Sorting Data
-
 // Tuần 5
 // 1. Soft delete
 // 2. Sorting asc | desc

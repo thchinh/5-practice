@@ -1,7 +1,9 @@
 import authRoute from './authRoute.js';
+import userRoute from './userRoute.js';
 
 function routes(app) {
   app.use('/auth', authRoute);
+  app.use('/api', userRoute);
 
   app.get('/', (req, res) => {
     req.header;

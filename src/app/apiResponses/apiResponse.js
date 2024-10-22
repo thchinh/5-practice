@@ -14,6 +14,16 @@ class SuccessResponse extends ApiResponse {
   }
 }
 
+class PaginationResponse extends ApiResponse {
+  constructor(data, pageIndex, pageSize, total) {
+    super(HttpStatusCode.Ok, 'Data retrieved successfully');
+    this.data = data;
+    this.pageIndex = pageIndex;
+    this.pageSize = pageSize;
+    this.total = total;
+  }
+}
+
 class ErrorResponse extends ApiResponse {
   constructor(statusCode, errors) {
     super(statusCode, 'An error has occur');
@@ -39,4 +49,10 @@ class Forbiden extends ErrorResponse {
   }
 }
 
-export { SuccessResponse, BadRequest, Unauthorize, Forbiden };
+export {
+  SuccessResponse,
+  BadRequest,
+  Unauthorize,
+  Forbiden,
+  PaginationResponse,
+};
